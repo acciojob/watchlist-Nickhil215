@@ -34,6 +34,7 @@ import java.util.*;
 public class MovieRepository {
     List<Movie> movies=new ArrayList<>();
     List<Director> directors=new ArrayList<>();
+    HashMap<String,List<Movie>> pair=new HashMap<>();
 
  String addMovie(Movie movie){
     movies.add(movie);
@@ -63,20 +64,20 @@ Director getdirecor(String name){
      }
     return null;
 }
-    List<Movie> pairmovies;
-    HashMap<String,List> pair=new HashMap<>();
+
+
 String addpair(String mvName,String dirName){
 
      if(movies.contains(mvName) && directors.contains(dirName)){
         if(!pair.containsKey(dirName)){
-            pairmovies=new ArrayList<>();
+            List<Movie> pairmovies=new ArrayList<>();
             Movie obj=movies.get(movies.indexOf(mvName));
             pairmovies.add(obj);
             pair.put(dirName,pairmovies);
 
         }else {
             Movie obj=movies.get(movies.indexOf(mvName));
-            pair.put(dirName, Collections.singletonList(pair.get(dirName).add(obj)));
+            pair.get(dirName).add(obj)  ;
         }
          return "Paired Successfully";
      }
@@ -95,7 +96,18 @@ String addpair(String mvName,String dirName){
         return st;
     }
     String deleteDirectorByName(String dirName){
-    pair.remove(dirName);
+    if(directors.contains(dirName)){
+
+        if(pair.containsKey(dirName)){
+            List<Movie> movies1=pair.get(dirName);
+            for(Movie mv:movies1){
+                movies.remove(mv);
+            }
+            pair.remove(dirName);
+        }
+        directors.remove(dirName);
+    }
+
     return "SUCCESSFULLY DELETED ";
     }
 
