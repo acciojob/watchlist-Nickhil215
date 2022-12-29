@@ -5,31 +5,7 @@ import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
-//class  pair(){
-//   private Movie mv;
-//    private Director dir;
-//
-//    public pair(Movie mv, Director dir) {
-//        this.mv = mv;
-//        this.dir = dir;
-//    }
-//
-//    public Movie getMv() {
-//        return mv;
-//    }
-//
-//    public void setMv(Movie mv) {
-//        this.mv = mv;
-//    }
-//
-//    public Director getDir() {
-//        return dir;
-//    }
-//
-//    public void setDir(Director dir) {
-//        this.dir = dir;
-//    }
-//}
+
 @Repository
 public class MovieRepository {
 
