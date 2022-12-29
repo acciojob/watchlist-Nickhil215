@@ -32,102 +32,87 @@ import java.util.*;
 //}
 @Repository
 public class MovieRepository {
-    List<Movie> movies=new ArrayList<>();
-    List<Director> directors=new ArrayList<>();
-    HashMap<String,List<Movie>> pair=new HashMap<>();
+
+    HashMap<String,Movie> movies=new HashMap<>();
+    HashMap<String,Director> directors=new HashMap<>();
+    HashMap<String,List<String>> pair=new HashMap<>();
 
  String addMovie(Movie movie){
-    movies.add(movie);
+     String mv=movie.getName();
+    movies.put(mv,movie);
     return "Successfully Added Movie";
 }
 String addDirector(Director director){
-     directors.add(director);
+     directors.put(director.getName(),director);
      return "Successfully Added Director";
 }
 Movie getmovie(String name){
-    Iterator<Movie> movie=movies.listIterator();
-    while (movie.hasNext()){
-        Movie req=movie.next();
-        if(req.getName().equals(name)){
-            return req;
-        }
-    }
-    return null;
+    return movies.get(name);
+
 }
 Director getdirecor(String name){
-     Iterator<Director> dir=directors.listIterator();
-     while(dir.hasNext()){
-         Director obj=dir.next();
-         if(obj.getName().equals(name)){
-             return obj;
-         }
-     }
-    return null;
+    return directors.get(name);
 }
 
 
-String addpair(String mvName,String dirName){
-
-     if(movies.contains(mvName) && directors.contains(dirName)){
-        if(!pair.containsKey(dirName)){
-            List<Movie> pairmovies=new ArrayList<>();
-            Movie obj=movies.get(movies.indexOf(mvName));
-            pairmovies.add(obj);
-            pair.put(dirName,pairmovies);
-
+    String addpair(String mvName,String dirName){
+    if(movies.containsKey(mvName) && directors.containsKey(dirName)){
+        if(pair.containsKey(dirName)){
+            pair.get(dirName).add(mvName);
         }else {
-            Movie obj=movies.get(movies.indexOf(mvName));
-            pair.get(dirName).add(obj)  ;
+            ArrayList<String> mv=new ArrayList<>();
+            mv.add(mvName);
+            pair.put(dirName,mv);
         }
-         return "Paired Successfully";
-     }
 
-    return null;
-}
+    }
+     return "SUCCESSFULLY PAIRED";
+
+    }
 
     List getAllMovies(){
-    List<String> st=new ArrayList<>();
-        Iterator<Movie> list=movies.listIterator();
-        while (list.hasNext()){
-            Movie obj=list.next();
-            String s=obj.getName();
-           st.add(s);
-        }
-        return st;
+     ArrayList<String> mvs=new ArrayList<>();
+      for(String s:movies.keySet()){
+          mvs.add(s);
+      }
+      return mvs;
     }
     String deleteDirectorByName(String dirName){
-    if(directors.contains(dirName)){
+    if(directors.containsKey(dirName)){
 
         if(pair.containsKey(dirName)){
-            List<Movie> movies1=pair.get(dirName);
-            for(Movie mv:movies1){
+            List<String> movies1=pair.get(dirName);
+            for(String mv:movies1){
                 movies.remove(mv);
             }
             pair.remove(dirName);
         }
         directors.remove(dirName);
+        return "SUCCESSFULLY DELETED ";
     }
-
-    return "SUCCESSFULLY DELETED ";
+       return null;
     }
 
 
     String deleteAllDirectors(){
-    pair.clear();
+     ArrayList<String> list=new ArrayList<>();
+     for(String s:pair.keySet()){
+       for(String m:pair.get(s)){
+           list.add(m);
+       }
+     }
+     for(String i:list){
+         movies.remove(i);
+     }
     return  "SUCCESSFULLY DELETED ALL DIRECTORS";
     }
 
     List getMoviesByDirectorName(String dirName){
     List<String> movieNames=new ArrayList<>();
-    if (pair.containsKey(dirName)){
-        List dummy=pair.get(dirName);
-        Iterator<Movie> list=dummy.listIterator();
-        while (list.hasNext()){
-            Movie mv=list.next();
-            movieNames.add(mv.getName());
-        }
+     if(pair.containsKey(dirName)){
 
-    }
-    return movieNames;
+         movieNames=(pair.get(dirName));
+     }
+     return movieNames;
     }
 }

@@ -22,20 +22,20 @@ public class MovieController {
         return new ResponseEntity<>(res,HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/getmoviebyname")
-    public  ResponseEntity<Movie> getMovieByName(@RequestParam()String name){
-        Movie movie=movieService.getmoviebyname(name);
+    @GetMapping("/getmoviebyname/{mvName}")
+    public  ResponseEntity<Movie> getMovieByName(@PathVariable("mvName")String mvName){
+        Movie movie=movieService.getmoviebyname(mvName);
         return new ResponseEntity<>(movie,HttpStatus.FOUND);
     }
 
-    @GetMapping("/getdirectorbyname")
-    public ResponseEntity<Director> getDirectorByName(@RequestParam() String name){
-        Director obj=movieService.getdirectorbyname(name);
+    @GetMapping("/getdirectorbyname/{dirName}")
+    public ResponseEntity<Director> getDirectorByName(@PathVariable("dirName") String dirName){
+        Director obj=movieService.getdirectorbyname(dirName);
         return new ResponseEntity<>(obj,HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/addMovieDirectorPair")
-    public ResponseEntity<String> addMovieDirectorPair(@RequestParam() String mvName,@RequestParam() String dirName){
+    public ResponseEntity<String> addMovieDirectorPair(@RequestParam("mvName") String mvName,@RequestParam("dirName") String dirName){
         String res=movieService.addmoviedirectorPair(mvName,dirName);
         return new ResponseEntity<>(res,HttpStatus.ACCEPTED);
     }
@@ -45,6 +45,7 @@ public class MovieController {
         List st=movieService.getallmovies();
         return new ResponseEntity<>(st,HttpStatus.CREATED);
     }
+
     @DeleteMapping("/deleteDirectorByName")
     public ResponseEntity<String> deleteDirectorByName(@RequestParam() String dirName){
         String res=movieService.deleteDirectorByName(dirName);
@@ -58,8 +59,9 @@ public class MovieController {
     }
 
     @GetMapping("/getMoviesByDirectorName")
-    public  ResponseEntity<List> getMoviesByDirectorName(@RequestParam() String dirName){
+    public  ResponseEntity<List> getMoviesByDirectorName(@RequestParam("dirName") String dirName){
         List movieNames=movieService.getMoviesByDirectorName(dirName);
         return new ResponseEntity<>(movieNames,HttpStatus.OK);
     }
+
 }
