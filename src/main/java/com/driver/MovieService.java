@@ -49,4 +49,9 @@ public class MovieService {
         List movieNames=movieRepository.getMoviesByDirectorName(dirName);
         return movieNames;
     }
+    String getDirectorByMovieName(String mvName){
+        String diName=movieRepository.getDirectorByMovieName(mvName);
+        return diName;
+    }
+
 }

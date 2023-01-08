@@ -30,7 +30,6 @@ public class MovieRepository {
         return directors.get(name);
     }
 
-
     String addpair(String mvName,String dirName){
         if(movies.containsKey(mvName) && directors.containsKey(dirName)){
             if(pair.containsKey(dirName)){
@@ -40,10 +39,8 @@ public class MovieRepository {
                 mv.add(mvName);
                 pair.put(dirName,mv);
             }
-
         }
         return "SUCCESSFULLY PAIRED";
-
     }
 
     List getAllMovies(){
@@ -53,9 +50,9 @@ public class MovieRepository {
         }
         return mvs;
     }
+
     String deleteDirectorByName(String dirName){
         if(directors.containsKey(dirName)){
-
             if(pair.containsKey(dirName)){
                 List<String> movies1=pair.get(dirName);
                 for(String mv:movies1){
@@ -69,7 +66,6 @@ public class MovieRepository {
         return null;
     }
 
-
     String deleteAllDirectors(){
         ArrayList<String> list=new ArrayList<>();
         for(String s:pair.keySet()){
@@ -82,7 +78,6 @@ public class MovieRepository {
         }
         return  "SUCCESSFULLY DELETED ALL DIRECTORS";
     }
-
     List getMoviesByDirectorName(String dirName){
         List<String> movieNames=new ArrayList<>();
         if(pair.containsKey(dirName)){
@@ -90,5 +85,16 @@ public class MovieRepository {
             movieNames=(pair.get(dirName));
         }
         return movieNames;
+    }
+
+    String getDirectorByMovieName(String mvName){
+
+        for(String director:pair.keySet()){
+            List<String> movies=pair.get(director);
+            if(movies.contains(mvName)){
+                return director;
+            }
+        }
+        return "Not exist";
     }
 }

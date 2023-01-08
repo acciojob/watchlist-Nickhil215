@@ -64,4 +64,11 @@ public class MovieController {
         return new ResponseEntity<>(movieNames,HttpStatus.OK);
     }
 
+    @GetMapping("/movies/get-dirName-by-mvName/{mvName}")
+    public  ResponseEntity<String> getDirectorName(@PathVariable("mvName")String mvName){
+        String DirName=movieService.getDirectorByMovieName(mvName);
+        return new ResponseEntity<>(DirName,HttpStatus.OK);
+    }
+
+
 }
